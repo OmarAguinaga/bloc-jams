@@ -49,6 +49,14 @@ body.landing {
         transition-delay: 0.2s;
 }
 
+.point:hover{
+    background-color: #FFCCCC;
+    width: 200px;
+    height: 200px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
 .point .point-title {
     font-size: 1.25rem;
 }
