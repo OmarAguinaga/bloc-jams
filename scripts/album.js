@@ -29,6 +29,22 @@ var albumMarconi = {
     ]
 };
 
+var albumMyTrip = {
+    title: 'I travel',
+    artist: 'The Drivers',
+    label: 'Pop',
+    year: '2011',
+    albumArtUrl: 'assets/images/album_covers/03.png',
+    songs: [
+        { title: 'Chaging some gas', duration: '2:23' },
+        { title: 'No stop', duration: '4:45' },
+        { title: 'Wasted', duration: '3:24' },
+        { title: 'I dont want to go back', duration: '5:23'},
+        { title: 'The best trip', duration: '2:54'}
+    ]
+};
+
+
 var createSongRow = function(songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">'
@@ -40,15 +56,13 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     return template;
 };
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
 var setCurrentAlbum = function(album) {
-    // #1
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-
     // #2
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
@@ -66,4 +80,15 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    
+    var count = 1;
+    var albums = [albumPicasso, albumMarconi, albumMyTrip];
+    albumImage.addEventListener("click", function(event){
+        setCurrentAlbum(albums[count]);
+        count++;
+        if(count == albums.length){
+            count = 0;
+        }
+    });
+        
 };
