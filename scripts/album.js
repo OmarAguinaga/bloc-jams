@@ -48,7 +48,7 @@ var albumMyTrip = {
 var createSongRow = function(songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">'
-    + '  <td class="song-item-number">' + songNumber + '</td>'
+    + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + '  <td class="song-item-title">' + songName + '</td>'
     + '  <td class="song-item-duration">' + songLength + '</td>'
     + '</tr>'
@@ -56,13 +56,19 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     return template;
 };
-var albumTitle = document.getElementsByClassName('album-view-title')[0];
-var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-var albumImage = document.getElementsByClassName('album-cover-art')[0];
-var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+//var albumTitle = document.getElementsByClassName('album-view-title')[0];
+//var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+//var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+//var albumImage = document.getElementsByClassName('album-cover-art')[0];
+//var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
 var setCurrentAlbum = function(album) {
+    var albumTitle = document.getElementsByClassName('album-view-title')[0];
+    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+    var albumImage = document.getElementsByClassName('album-cover-art')[0];
+    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+    
     // #2
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
@@ -78,17 +84,33 @@ var setCurrentAlbum = function(album) {
     }
 };
 
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+var songRows = document.getElementsByClassName('album-view-song-item');
+
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
-    
-    var count = 1;
-    var albums = [albumPicasso, albumMarconi, albumMyTrip];
-    albumImage.addEventListener("click", function(event){
-        setCurrentAlbum(albums[count]);
-        count++;
-        if(count == albums.length){
-            count = 0;
+    songListContainer.addEventListener('mouseover', function(event) {
+        if (event.target.parentElement.className === 'album-view-song-item') {
+            event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate; //We use the querySelector() method because we only need to return a single element with the .song-item-number class
         }
     });
+    
+    for (var i = 0; i < songRows.length; i++) {
+        songRows[i].addEventListener('mouseleave', function(event) {
+            // Selects first child element, which is the song-item-number element
+            this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+        });
+    }
+//    var count = 1;
+//    var albums = [albumPicasso, albumMarconi, albumMyTrip];
+//    albumImage.addEventListener("click", function(event){
+//        setCurrentAlbum(albums[count]);
+//        count++;
+//        if(count == albums.length){
+//            count = 0;
+//        }
+//    });
         
 };
